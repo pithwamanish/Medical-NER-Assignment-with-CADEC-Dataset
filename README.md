@@ -371,10 +371,24 @@ When adding new features:
 
 See **[COLAB_SETUP.md](COLAB_SETUP.md)** for detailed instructions on running this project in Google Colab.
 
-**Quick Start for Colab:**
-1. Upload project to Google Drive or clone via Git
-2. Open `colab_setup.ipynb` in Colab
-3. Run all cells to set up the environment
+**Quick Start for Git Users (No Drive Needed!):**
+```python
+# In Colab, if using git pull:
+import os
+import sys
+os.chdir('/content/your-repo-name')
+!git pull
+!pip install -q -r requirements.txt
+sys.path.insert(0, os.getcwd())
+import config
+from src.utils.logging_utils import setup_logging
+setup_logging()
+```
+
+**For detailed setup:**
+1. Open `colab_setup.ipynb` in Colab
+2. Choose Git method (recommended) or Drive method
+3. Run cells to set up the environment
 4. Start using the modules!
 
 # Medical-NER-Assignment-with-CADEC-Dataset

@@ -4,14 +4,49 @@ This guide explains how to set up and run the CADEC NER project in Google Colab.
 
 ## Quick Start
 
-### Option 1: Upload Project to Google Drive (Recommended)
+### Option 1: Using Git (Recommended - No Drive Needed!)
 
-1. **Upload your project to Google Drive:**
-   - Zip the project folder
-   - Upload to Google Drive
-   - Or use Git to clone directly in Colab
+If you're already using `git pull` in Colab, this is the simplest method:
 
-2. **Open a new Colab notebook and run:**
+```python
+# Navigate to your repository (if already cloned)
+import os
+import sys
+os.chdir('/content/your-repo-name')  # Update with your repo path
+
+# Pull latest changes (if needed)
+!git pull
+
+# Install dependencies
+!pip install -q -r requirements.txt
+
+# Add to Python path
+sys.path.insert(0, os.getcwd())
+
+# Test imports
+import config
+from src.utils.logging_utils import setup_logging
+setup_logging()
+print("✅ Setup complete!")
+```
+
+**First time cloning?**
+```python
+# Clone repository
+!git clone https://github.com/yourusername/your-repo.git
+%cd your-repo
+
+# Install dependencies
+!pip install -q -r requirements.txt
+
+# Add to Python path
+import sys
+sys.path.insert(0, os.getcwd())
+```
+
+### Option 2: Upload Project to Google Drive (Alternative)
+
+Only use this if you're NOT using Git:
 
 ```python
 # Mount Google Drive
@@ -29,17 +64,6 @@ os.chdir('/content/drive/MyDrive/YourProjectPath')  # Update this path
 !python setup_project.py
 ```
 
-### Option 2: Clone from GitHub (if using Git)
-
-```python
-# Clone repository
-!git clone https://github.com/yourusername/your-repo.git
-%cd your-repo
-
-# Install dependencies
-!pip install -r requirements.txt
-```
-
 ### Option 3: Upload Directly in Colab
 
 1. Click on the folder icon in Colab sidebar
@@ -48,37 +72,49 @@ os.chdir('/content/drive/MyDrive/YourProjectPath')  # Update this path
 
 ## Complete Setup Code for Colab
 
+### Using Git (Recommended)
+
 Copy and run this in a Colab cell:
 
 ```python
 # ============================================================================
-# CADEC NER Project - Google Colab Setup
+# CADEC NER Project - Google Colab Setup (Git Method)
 # ============================================================================
 
 import sys
+import os
 from pathlib import Path
 
-# Step 1: Mount Google Drive (if using Drive)
-from google.colab import drive
-drive.mount('/content/drive')
+# Step 1: Clone or navigate to repository
+# If first time, clone:
+# !git clone https://github.com/yourusername/your-repo.git
+# %cd your-repo
 
-# Step 2: Navigate to project directory
-# Update this path to match your project location
-PROJECT_PATH = '/content/drive/MyDrive/Medical NER Assignment with CADEC Dataset'
-# Or if uploaded directly: PROJECT_PATH = '/content/Medical NER Assignment with CADEC Dataset'
+# If already cloned, just navigate:
+# %cd your-repo
 
-os.chdir(PROJECT_PATH)
-print(f"Current directory: {os.getcwd()}")
+# Or if using git pull (as you mentioned):
+REPO_PATH = '/content/your-repo-name'  # Update with your repo name/path
+if not os.path.exists(REPO_PATH):
+    # Clone if doesn't exist
+    !git clone https://github.com/yourusername/your-repo.git
+else:
+    # Pull latest changes
+    os.chdir(REPO_PATH)
+    !git pull
 
-# Step 3: Install dependencies
+os.chdir(REPO_PATH)
+print(f"✅ Current directory: {os.getcwd()}")
+
+# Step 2: Install dependencies
 print("\nInstalling dependencies...")
 !pip install -q -r requirements.txt
 
-# Step 4: Verify Python path
-sys.path.insert(0, PROJECT_PATH)
-print(f"\nPython path updated: {PROJECT_PATH}")
+# Step 3: Add to Python path
+sys.path.insert(0, os.getcwd())
+print(f"✅ Python path updated")
 
-# Step 5: Test imports
+# Step 4: Test imports
 print("\nTesting imports...")
 try:
     import config
@@ -87,10 +123,30 @@ try:
     print("✅ All imports successful!")
 except Exception as e:
     print(f"❌ Import error: {e}")
+    import traceback
+    traceback.print_exc()
 
-# Step 6: Setup logging
+# Step 5: Setup logging
 setup_logging()
 print("\n✅ Setup complete! Ready to use.")
+```
+
+### Using Google Drive (Alternative)
+
+Only use this if NOT using Git:
+
+```python
+# Mount Google Drive
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Navigate to project directory
+PROJECT_PATH = '/content/drive/MyDrive/Medical NER Assignment with CADEC Dataset'
+os.chdir(PROJECT_PATH)
+sys.path.insert(0, PROJECT_PATH)
+
+# Install dependencies
+!pip install -q -r requirements.txt
 ```
 
 ## Using the Modules in Colab
