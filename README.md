@@ -367,4 +367,14 @@ When adding new features:
 
 [Your contact information]
 
+## Running in Google Colab
+
+See **[COLAB_SETUP.md](COLAB_SETUP.md)** for detailed instructions on running this project in Google Colab.
+
+**Quick Start for Colab:**
+1. Upload project to Google Drive or clone via Git
+2. Open `colab_setup.ipynb` in Colab
+3. Run all cells to set up the environment
+4. Start using the modules!
+
 # Medical-NER-Assignment-with-CADEC-Dataset
